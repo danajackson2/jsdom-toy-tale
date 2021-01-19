@@ -59,6 +59,18 @@ function addLike(event){
 		})
 }
 
+function deleteToy(event){
+  let parent = event.target.parentElement
+  fetch(`http://localhost:3000/toys/${parent.id}`, {
+    method : 'DELETE',
+  })
+  .then (res => res.json())
+  .then(() => {
+    let oldToy = document.getElementById(parent.id)
+    oldToy.remove()
+  })
+}
+
 function addNewToy(toy){
   let toyCollection = document.getElementById('toy-collection')
   let myDiv = document.createElement('div')
@@ -66,19 +78,23 @@ function addNewToy(toy){
     myDiv.classList.add('card')
     let h2 = document.createElement('h2')
     h2.innerText = toy.name
-    myDiv.appendChild(h2)
+    // myDiv.appendChild(h2)
     let img = document.createElement('img')
     img.src = toy.image
     img.classList.add('toy-avatar')
-    myDiv.appendChild(img)
+    // myDiv.appendChild(img)
     let p = document.createElement('p')
     p.innerText = toy.likes
-    myDiv.appendChild(p)
+    // myDiv.appendChild(p)
     let btn = document.createElement('button')
     btn.classList.add('like-btn')
     btn.innerText = 'like'
     btn.addEventListener('click', addLike)
-    myDiv.appendChild(btn)
+    delBtn = document.createElement('button')
+    delBtn.id = "delete-btn"
+    delBtn.innerText = "delete"
+    delBtn.addEventListener('click', deleteToy)
+    myDiv.append(h2, img, p, btn, delBtn)
     toyCollection.appendChild(myDiv)
 }
 
